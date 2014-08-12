@@ -13,6 +13,7 @@ namespace ConsoleMenu
         private readonly string m_instructionalText;
         private readonly IMenuIOProvider m_io;
 
+        // TODO: REPLACE LAST USED FUNC, TAKE THE ITEM THAT WAS LAST USED + MAKE OPTIONAL
         public TypedMenu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText)
             : this(choices, nameFunc, lastUsedFunc, instructionalText, new ConsoleMenuIOProvider())
         {
@@ -90,10 +91,6 @@ namespace ConsoleMenu
                 {
                     chosen = int.Parse(key.ToString(CultureInfo.InvariantCulture));
                     validKey = true;
-                }
-                else
-                {
-                    m_io.ClearLastInput();
                 }
             }
 

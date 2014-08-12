@@ -20,11 +20,6 @@ namespace ConsoleMenu
             Console.Write("{0}{1}: ", instructions, lastUsed == null ? "" : " (" + lastUsed + ")");
         }
 
-        public void ClearLastInput()
-        {
-            Console.Write("\b\0\b");
-        }
-
         public void Clear()
         {
             Console.Clear();
@@ -32,7 +27,7 @@ namespace ConsoleMenu
 
         public char ReadCharacter()
         {
-            return Console.ReadKey().KeyChar;
+            return Console.ReadKey(true).KeyChar;
         }
     }
 }
