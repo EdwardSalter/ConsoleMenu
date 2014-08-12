@@ -7,11 +7,10 @@ namespace ConsoleMenu
 {
     public class TypedMenu<T>
     {
-        private readonly IList<T> m_choices;
-        private readonly Func<T, string> m_nameFunc;
-        private readonly Func<T, bool> m_lastUsedFunc;
+        private readonly IEnumerable<IMenuItem> m_choices;
         private readonly string m_instructionalText;
         private readonly IMenuIOProvider m_io;
+        private readonly IList<T> m_items;
 
         // TODO: REPLACE LAST USED FUNC, TAKE THE ITEM THAT WAS LAST USED + MAKE OPTIONAL
         public TypedMenu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText)
@@ -21,11 +20,11 @@ namespace ConsoleMenu
 
         internal TypedMenu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText, IMenuIOProvider io)
         {
-            m_choices = choices;
+            m_items = choices;
+            var lastUsed = choices.FirstOrDefault(lastUsedFunc.Invoke);
+            m_choices = MenuItemFactory.CreateMenuItemsFromObjects(choices, nameFunc, lastUsed);
             m_instructionalText = instructionalText;
             m_io = io;
-            m_lastUsedFunc = lastUsedFunc;
-            m_nameFunc = nameFunc;
         }
 
         // TODO: CANCELLABLE
@@ -48,9 +47,9 @@ namespace ConsoleMenu
             for (currentIndex = 1; currentIndex <= numberOfChoices; currentIndex++)
             {
                 var choice = choices[currentIndex - 1];
-                m_io.WriteNumberedChoice(currentIndex, m_nameFunc.Invoke(choice));
+                m_io.WriteNumberedChoice(currentIndex, choice.DisplayText);
 
-                if (m_lastUsedFunc.Invoke(choice))
+                if (choice.IsDefault)
                 {
                     lastUsed = currentIndex;
                 }
@@ -95,7 +94,7 @@ namespace ConsoleMenu
             }
 
             m_io.Clear();
-            return m_choices[startIndex + chosen.Value - 1];
+            return m_items.ElementAt(startIndex + chosen.Value - 1);
         }
     }
 }
