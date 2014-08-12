@@ -40,7 +40,7 @@
   <ItemGroup>
     <Compile Include="ConsoleMenuIOProvider.cs" />
     <Compile Include="IMenuIOProvider.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="TypedMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

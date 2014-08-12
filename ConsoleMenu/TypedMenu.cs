@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ConsoleMenu
 {
-    public class Menu<T>
+    public class TypedMenu<T>
     {
         private readonly IList<T> m_choices;
         private readonly Func<T, string> m_nameFunc;
@@ -13,12 +13,12 @@ namespace ConsoleMenu
         private readonly string m_instructionalText;
         private readonly IMenuIOProvider m_io;
 
-        public Menu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText)
+        public TypedMenu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText)
             : this(choices, nameFunc, lastUsedFunc, instructionalText, new ConsoleMenuIOProvider())
         {
         }
 
-        internal Menu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText, IMenuIOProvider io)
+        internal TypedMenu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText, IMenuIOProvider io)
         {
             m_choices = choices;
             m_instructionalText = instructionalText;
@@ -80,7 +80,7 @@ namespace ConsoleMenu
                         validKey = true;
                     }
                 }
-                else if ((moreThanFits || startIndex > 0) && key == currentIndex.ToString((IFormatProvider) CultureInfo.InvariantCulture)[0])
+                else if ((moreThanFits || startIndex > 0) && key == currentIndex.ToString(CultureInfo.InvariantCulture)[0])
                 {
                     m_io.Clear();
                     var newStart = moreThanFits ? maxOnScreen + startIndex : 0;
