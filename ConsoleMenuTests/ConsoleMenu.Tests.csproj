@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="MenuItemFactoryTests.cs" />
     <Compile Include="MenuItemTests.cs" />
+    <Compile Include="MenuTests.cs" />
     <Compile Include="TypedMenuTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

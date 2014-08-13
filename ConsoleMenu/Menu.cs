@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 
 namespace ConsoleMenu
 {
     public class Menu
     {
+        private readonly IMenuIOProvider m_io;
         public string InstructionalText { get; set; }
         public InstructionPosition InstructionPosition { get; set; }
-        public IEnumerable<MenuItem> MenuItems { get; private set; }
+        public IEnumerable<IMenuItem> MenuItems { get; private set; }
         public bool CanBeCancelled { get; set; }
 
         public Menu()
@@ -14,24 +18,100 @@ namespace ConsoleMenu
         { }
 
         public Menu(string instructionalText)
-            : this(instructionalText, InstructionPosition.Below)
+            : this(instructionalText, new List<MenuItem>())
         { }
 
-        public Menu(string instructionalText, InstructionPosition instructionPosition)
-            : this(instructionalText, instructionPosition, new List<MenuItem>())
+        public Menu(string instructionalText, IEnumerable<IMenuItem> menuItems)
+            : this(instructionalText, menuItems, new ConsoleMenuIOProvider())
         { }
 
-        public Menu(string instructionalText, InstructionPosition instructionPosition, IEnumerable<MenuItem> menuItems)
+        internal Menu(string instructionalText, IEnumerable<IMenuItem> menuItems, IMenuIOProvider ioProvider)
         {
             InstructionalText = instructionalText;
-            InstructionPosition = instructionPosition;
+            InstructionPosition = InstructionPosition.Below;
             MenuItems = menuItems;
+            m_io = ioProvider;
         }
-    }
 
-    public enum InstructionPosition
-    {
-        Above,
-        Below
+        public int Display()
+        {
+            return DisplayFrom(0);
+        }
+
+        private int DisplayFrom(int startIndex)
+        {
+            var choices = MenuItems.Skip(startIndex).ToList();
+
+            const int maxOnScreen = 9;
+            var numberOfChoices = Math.Min(choices.Count, maxOnScreen);
+            var moreThanFits = choices.Count > maxOnScreen;
+
+            int? lastUsed = choices.FindIndex(mi => mi.IsDefault);
+            if (lastUsed < 0)
+            {
+                lastUsed = null;
+            }
+            else
+            {
+                lastUsed++;
+            }
+
+            if (InstructionPosition == InstructionPosition.Above)
+            {
+                m_io.WriteInstructions(InstructionalText, lastUsed);
+            }
+
+            int currentIndex;
+            for (currentIndex = 1; currentIndex <= numberOfChoices; currentIndex++)
+            {
+                var choice = choices[currentIndex - 1];
+                m_io.WriteNumberedChoice(currentIndex, choice.DisplayText);
+            }
+            if (currentIndex > maxOnScreen)
+            {
+                currentIndex = 0;
+            }
+
+            if (moreThanFits || startIndex > 0)
+            {
+                m_io.WriteMore(currentIndex);
+            }
+
+            if (InstructionPosition == InstructionPosition.Below)
+            {
+                m_io.WriteInstructions(InstructionalText, lastUsed);
+            }
+
+            int? chosen = null;
+            bool validKey = false;
+            while (!validKey)
+            {
+                var key = m_io.ReadCharacter();
+
+                if (key == Environment.NewLine[0])
+                {
+                    if (lastUsed.HasValue)
+                    {
+                        chosen = lastUsed;
+                        validKey = true;
+                    }
+                }
+                else if ((moreThanFits || startIndex > 0) && key == currentIndex.ToString(CultureInfo.InvariantCulture)[0])
+                {
+                    m_io.Clear();
+                    var newStart = moreThanFits ? maxOnScreen + startIndex : 0;
+                    return DisplayFrom(newStart);
+                }
+                else if (key >= '1' && key <= numberOfChoices.ToString(CultureInfo.InvariantCulture)[0])
+                {
+                    chosen = int.Parse(key.ToString(CultureInfo.InvariantCulture));
+                    validKey = true;
+                }
+            }
+
+            m_io.Clear();
+
+            return startIndex + chosen.Value - 1;
+        }
     }
 }
