@@ -1,10 +1,17 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using NUnit.Framework;
 
 namespace ConsoleMenu.Tests
 {
     public class MenuTests
     {
+        [Test]
+        public void Constructor_GivenANullListOfMenuItems_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Menu("AnyString", null));
+        }
+
         [Test]
         public void Display_FirstMenuItemIsDefault_SendsOneToInstructionPrintMethodAsDefaultValue()
         {
@@ -27,6 +34,15 @@ namespace ConsoleMenu.Tests
             menu.Display();
 
             mockIoProvider.Verify(io => io.WriteInstructions(It.IsAny<string>(), 2));
+        }
+
+        [Test]
+        public void Display_ThereAreNoMenuItems_Throws()
+        {
+            var mockIoProvider = CreateMockIoProvider();
+            var menu = new Menu("SomeText", new IMenuItem[] { }, mockIoProvider.Object);
+
+            Assert.Throws<InvalidOperationException>(() => menu.Display());
         }
 
         private static Mock<IMenuIOProvider> CreateMockIoProvider()

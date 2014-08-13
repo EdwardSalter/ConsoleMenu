@@ -27,6 +27,8 @@ namespace ConsoleMenu
 
         internal Menu(string instructionalText, IEnumerable<IMenuItem> menuItems, IMenuIOProvider ioProvider)
         {
+            if (menuItems == null) throw new ArgumentNullException("menuItems");
+
             InstructionalText = instructionalText;
             InstructionPosition = InstructionPosition.Below;
             MenuItems = menuItems;
@@ -35,6 +37,11 @@ namespace ConsoleMenu
 
         public int Display()
         {
+            if (!MenuItems.Any())
+            {
+                throw new InvalidOperationException("Cannot display menu as there are no menu items to display");
+            }
+
             return DisplayFrom(0);
         }
 
