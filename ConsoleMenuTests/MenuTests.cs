@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using Moq.Sequences;
 using NUnit.Framework;
 
 namespace ConsoleMenu.Tests
@@ -43,6 +44,36 @@ namespace ConsoleMenu.Tests
             var menu = new Menu("SomeText", new IMenuItem[] { }, mockIoProvider.Object);
 
             Assert.Throws<InvalidOperationException>(() => menu.Display());
+        }
+
+        [Test]
+        public void Display_InstructionPositionIsAbove_InstructionsAreWrittenBeforeChoices()
+        {
+            var mockIoProvider = CreateMockIoProvider();
+            var menuItems = new[] { new MenuItem("one") };
+            var menu = new Menu("SomeText", menuItems, mockIoProvider.Object) { InstructionPosition = InstructionPosition.Above };
+            using (Sequence.Create())
+            {
+                mockIoProvider.Setup(io => io.WriteInstructions(It.IsAny<string>(), It.IsAny<int?>())).InSequence();
+                mockIoProvider.Setup(io => io.WriteNumberedChoice(It.IsAny<int>(), It.IsAny<string>())).InSequence();
+
+                menu.Display();
+            }
+        }
+
+        [Test]
+        public void Display_InstructionPositionIsBelow_InstructionsAreWrittenAfterChoices()
+        {
+            var mockIoProvider = CreateMockIoProvider();
+            var menuItems = new[] { new MenuItem("one") };
+            var menu = new Menu("SomeText", menuItems, mockIoProvider.Object) { InstructionPosition = InstructionPosition.Below };
+            using (Sequence.Create())
+            {
+                mockIoProvider.Setup(io => io.WriteNumberedChoice(It.IsAny<int>(), It.IsAny<string>())).InSequence();
+                mockIoProvider.Setup(io => io.WriteInstructions(It.IsAny<string>(), It.IsAny<int?>())).InSequence();
+
+                menu.Display();
+            }
         }
 
         private static Mock<IMenuIOProvider> CreateMockIoProvider()
