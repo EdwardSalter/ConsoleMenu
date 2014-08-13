@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ConsoleMenu
 {
@@ -11,6 +7,7 @@ namespace ConsoleMenu
         public string InstructionalText { get; set; }
         public InstructionPosition InstructionPosition { get; set; }
         public IEnumerable<MenuItem> MenuItems { get; private set; }
+        public bool CanBeCancelled { get; set; }
 
         public Menu()
             : this(string.Empty)

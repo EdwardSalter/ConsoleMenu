@@ -1,7 +1,6 @@
-﻿using ConsoleMenu;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace ConsoleMenuTests
+namespace ConsoleMenu.Tests
 {
     public class MenuItemTests
     {

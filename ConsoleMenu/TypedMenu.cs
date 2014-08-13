@@ -13,20 +13,19 @@ namespace ConsoleMenu
         private readonly IList<T> m_items;
 
         // TODO: REPLACE LAST USED FUNC, TAKE THE ITEM THAT WAS LAST USED + MAKE OPTIONAL
-        public TypedMenu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText)
-            : this(choices, nameFunc, lastUsedFunc, instructionalText, new ConsoleMenuIOProvider())
+        public TypedMenu(IList<T> choices, Func<T, string> nameFunc, T lastUsed, string instructionalText)
+            : this(choices, nameFunc, lastUsed, instructionalText, new ConsoleMenuIOProvider())
         {
         }
 
-        internal TypedMenu(IList<T> choices, Func<T, string> nameFunc, Func<T, bool> lastUsedFunc, string instructionalText, IMenuIOProvider io)
+        internal TypedMenu(IList<T> choices, Func<T, string> nameFunc, T lastUsed, string instructionalText, IMenuIOProvider io)
         {
             m_items = choices;
-            var lastUsed = choices.FirstOrDefault(lastUsedFunc.Invoke);
             m_choices = MenuItemFactory.CreateMenuItemsFromObjects(choices, nameFunc, lastUsed);
             m_instructionalText = instructionalText;
             m_io = io;
         }
-
+        
         // TODO: CANCELLABLE
 
         public T Display()

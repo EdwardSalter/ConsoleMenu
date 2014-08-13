@@ -20,7 +20,7 @@ namespace SimpleTestApp
                 new SimpleClass{Name = "Four"},
             };
 
-            var menu = new ConsoleMenu.TypedMenu<SimpleClass>(choices, x => x.Name, x => false, "Pick one");
+            var menu = new ConsoleMenu.TypedMenu<SimpleClass>(choices, x => x.Name, null, "Pick one");
             var choice = menu.Display();
 
             Console.WriteLine("You chose: {0}", choice.Name);

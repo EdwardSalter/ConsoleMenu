@@ -6,8 +6,8 @@
     <ProjectGuid>{B44EBA98-13A2-4313-85FC-40062504D7F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleMenuTests</RootNamespace>
-    <AssemblyName>ConsoleMenuTests</AssemblyName>
+    <RootNamespace>ConsoleMenu.Tests</RootNamespace>
+    <AssemblyName>ConsoleMenu.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -56,6 +56,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="MenuItemFactoryTests.cs" />
     <Compile Include="MenuItemTests.cs" />
     <Compile Include="TypedMenuTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
