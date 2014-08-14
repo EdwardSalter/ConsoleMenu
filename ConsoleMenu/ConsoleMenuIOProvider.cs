@@ -2,7 +2,6 @@
 
 namespace ConsoleMenu
 {
-    // ReSharper disable once InconsistentNaming
     internal class ConsoleMenuIOProvider : IMenuIOProvider
     {
         public void WriteNumberedChoice(int index, string choice)
