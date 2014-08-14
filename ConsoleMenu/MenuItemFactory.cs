@@ -14,7 +14,7 @@ namespace ConsoleMenu
 
             foreach (var item in items)
             {
-                var menuItem = new MenuItem(displayTextFunc.Invoke(item));
+                var menuItem = new MenuItem(default(char), displayTextFunc.Invoke(item));
                 if (item.Equals(lastUsed))
                 {
                     menuItem.IsDefault = true;

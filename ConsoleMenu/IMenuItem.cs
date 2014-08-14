@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace ConsoleMenu
+﻿namespace ConsoleMenu
 {
     public interface IMenuItem
     {
-        event EventHandler Selected;
         string DisplayText { get; set; }
         bool IsDefault { get; set; }
+        char Shortcut { get; set; }
     }
 }

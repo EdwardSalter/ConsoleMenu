@@ -4,7 +4,7 @@ namespace ConsoleMenu
 {
     internal class ConsoleMenuIOProvider : IMenuIOProvider
     {
-        public void WriteNumberedChoice(int index, string choice)
+        public void WriteMenuItem(char index, string choice)
         {
             Console.WriteLine("{0}. {1}", index, choice);
         }

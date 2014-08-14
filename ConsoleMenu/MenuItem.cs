@@ -1,43 +1,19 @@
-﻿using System;
-
-namespace ConsoleMenu
+﻿namespace ConsoleMenu
 {
-    public class MenuItem : IMenuItem, IDisposable
+    public class MenuItem : IMenuItem
     {
-        private readonly EventHandler m_onSelect;
-        public event EventHandler Selected;
+        public char Shortcut { get; set; }
         public string DisplayText { get; set; }
         public bool IsDefault { get; set; }
 
-        public MenuItem()
-            : this(string.Empty)
+        public MenuItem(char shortcut)
+            : this(shortcut, string.Empty)
         { }
 
-        public MenuItem(string displayText)
-            : this(displayText, null)
-        { }
-
-        public MenuItem(string displayText, EventHandler onSelect)
+        public MenuItem(char shortcut, string displayText)
         {
-            m_onSelect = onSelect;
+            Shortcut = shortcut;
             DisplayText = displayText;
-            Selected += m_onSelect;
-        }
-
-        internal void Select()
-        {
-            if (Selected != null)
-            {
-                Selected.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public void Dispose()
-        {
-            if (m_onSelect != null)
-            {
-                Selected -= m_onSelect;
-            }
         }
     }
 }

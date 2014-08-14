@@ -72,7 +72,9 @@ namespace ConsoleMenu
             for (currentIndex = 1; currentIndex <= numberOfChoices; currentIndex++)
             {
                 var choice = choices[currentIndex - 1];
-                m_io.WriteNumberedChoice(currentIndex, choice.DisplayText);
+                choice.Shortcut = currentIndex.ToString()[0];
+                // TODO: THIS SHOULD ALREADY BE DONE, MOVE TO A FORMATTER
+                m_io.WriteMenuItem(choice.Shortcut, choice.DisplayText);
             }
             if (currentIndex > MaxOnScreen)
             {

@@ -18,7 +18,7 @@ namespace ConsoleMenu.Tests
         public void Display_FirstMenuItemIsDefault_SendsOneToInstructionPrintMethodAsDefaultValue()
         {
             var mockIoProvider = CreateMockIoProvider();
-            var menuItems = new[] { new MenuItem("default") { IsDefault = true }, new MenuItem("non-default") };
+            var menuItems = new[] { new MenuItem('1', "default") { IsDefault = true }, new MenuItem('2', "non-default") };
             var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
 
             menu.Display();
@@ -30,7 +30,7 @@ namespace ConsoleMenu.Tests
         public void Display_SecondMenuItemIsDefault_SendsTwoToInstructionPrintMethodAsDefaultValue()
         {
             var mockIoProvider = CreateMockIoProvider();
-            var menuItems = new[] { new MenuItem("non-default"), new MenuItem("default") { IsDefault = true } };
+            var menuItems = new[] { new MenuItem('1', "non-default"), new MenuItem('2', "default") { IsDefault = true } };
             var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
 
             menu.Display();
@@ -51,12 +51,12 @@ namespace ConsoleMenu.Tests
         public void Display_InstructionPositionIsAbove_InstructionsAreWrittenBeforeChoices()
         {
             var mockIoProvider = CreateMockIoProvider();
-            var menuItems = new[] { new MenuItem("one") };
+            var menuItems = new[] { new MenuItem('1') };
             var menu = new Menu("SomeText", menuItems, mockIoProvider.Object) { InstructionPosition = InstructionPosition.Above };
             using (Sequence.Create())
             {
                 mockIoProvider.Setup(io => io.WriteInstructions(It.IsAny<string>(), It.IsAny<int?>())).InSequence();
-                mockIoProvider.Setup(io => io.WriteNumberedChoice(It.IsAny<int>(), It.IsAny<string>())).InSequence();
+                mockIoProvider.Setup(io => io.WriteMenuItem(It.IsAny<char>(), It.IsAny<string>())).InSequence();
 
                 menu.Display();
             }
@@ -66,11 +66,11 @@ namespace ConsoleMenu.Tests
         public void Display_InstructionPositionIsBelow_InstructionsAreWrittenAfterChoices()
         {
             var mockIoProvider = CreateMockIoProvider();
-            var menuItems = new[] { new MenuItem("one") };
+            var menuItems = new[] { new MenuItem('1') };
             var menu = new Menu("SomeText", menuItems, mockIoProvider.Object) { InstructionPosition = InstructionPosition.Below };
             using (Sequence.Create())
             {
-                mockIoProvider.Setup(io => io.WriteNumberedChoice(It.IsAny<int>(), It.IsAny<string>())).InSequence();
+                mockIoProvider.Setup(io => io.WriteMenuItem(It.IsAny<char>(), It.IsAny<string>())).InSequence();
                 mockIoProvider.Setup(io => io.WriteInstructions(It.IsAny<string>(), It.IsAny<int?>())).InSequence();
 
                 menu.Display();
@@ -107,7 +107,7 @@ namespace ConsoleMenu.Tests
         {
             var mockIoProvider = CreateMockIoProvider();
             mockIoProvider.Setup(io => io.ReadCharacter()).Returns('\r');
-            var menuItems = new[] { new MenuItem(), new MenuItem { IsDefault = true } };
+            var menuItems = new[] { new MenuItem('1'), new MenuItem('2') { IsDefault = true } };
             var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
 
             var choice = menu.Display();
@@ -120,7 +120,7 @@ namespace ConsoleMenu.Tests
             var menuItems = new List<IMenuItem>();
             for (int i = 0; i <= Menu.MaxOnScreen; i++)
             {
-                menuItems.Add(new MenuItem());
+                menuItems.Add(new MenuItem(i.ToString()[0]));
             }
             return menuItems;
         }
