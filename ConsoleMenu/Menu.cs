@@ -49,6 +49,7 @@ namespace ConsoleMenu
         private int DisplayFrom(int startIndex)
         {
             var choices = MenuItems.Skip(startIndex).ToList();
+            var displayed = choices.Take(MaxOnScreen).ToList();
 
             var numberOfChoices = Math.Min(choices.Count, MaxOnScreen);
             var moreThanFits = choices.Count > MaxOnScreen;
@@ -58,20 +59,17 @@ namespace ConsoleMenu
             {
                 lastUsed = null;
             }
-            else
-            {
-                lastUsed++;
-            }
 
             if (InstructionPosition == InstructionPosition.Above)
             {
-                m_io.WriteInstructions(InstructionalText, lastUsed);
+                m_io.WriteInstructions(InstructionalText, lastUsed == null ? null : lastUsed + 1);
             }
 
             int currentIndex;
             for (currentIndex = 1; currentIndex <= numberOfChoices; currentIndex++)
             {
                 var choice = choices[currentIndex - 1];
+                // TODO: DON'T DO THIS HERE AND TEST OTHER KEYS
                 choice.Shortcut = currentIndex.ToString()[0];
                 // TODO: THIS SHOULD ALREADY BE DONE, MOVE TO A FORMATTER
                 m_io.WriteMenuItem(choice.Shortcut, choice.DisplayText);
@@ -88,7 +86,7 @@ namespace ConsoleMenu
 
             if (InstructionPosition == InstructionPosition.Below)
             {
-                m_io.WriteInstructions(InstructionalText, lastUsed);
+                m_io.WriteInstructions(InstructionalText, lastUsed == null ? null : lastUsed + 1);
             }
 
             int? chosen = null;
@@ -96,6 +94,7 @@ namespace ConsoleMenu
             while (!validKey)
             {
                 var key = m_io.ReadCharacter();
+                var chosenMenu = displayed.FirstOrDefault(menu => key == menu.Shortcut);
 
                 if (key == Environment.NewLine[0])
                 {
@@ -111,16 +110,16 @@ namespace ConsoleMenu
                     var newStart = moreThanFits ? MaxOnScreen + startIndex : 0;
                     return DisplayFrom(newStart);
                 }
-                else if (key >= '1' && key <= numberOfChoices.ToString(CultureInfo.InvariantCulture)[0])
+                else if (chosenMenu != null)
                 {
-                    chosen = int.Parse(key.ToString(CultureInfo.InvariantCulture));
+                    chosen = MenuItems.ToList().IndexOf(chosenMenu);
                     validKey = true;
                 }
             }
 
             m_io.Clear();
 
-            return startIndex + chosen.Value - 1;
+            return chosen.Value;
         }
     }
 }
