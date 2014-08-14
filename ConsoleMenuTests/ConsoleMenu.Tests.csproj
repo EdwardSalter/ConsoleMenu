@@ -62,6 +62,7 @@
     <Compile Include="MenuItemFactoryTests.cs" />
     <Compile Include="MenuItemTests.cs" />
     <Compile Include="MenuTests.cs" />
+    <Compile Include="MoqExtensions.cs" />
     <Compile Include="TypedMenuTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

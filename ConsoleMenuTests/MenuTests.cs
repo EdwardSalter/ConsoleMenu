@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Moq;
 using Moq.Sequences;
 using NUnit.Framework;
@@ -74,6 +75,54 @@ namespace ConsoleMenu.Tests
 
                 menu.Display();
             }
+        }
+
+        [Test]
+        public void Display_GivenMoreThanTheMaxNumberOfItems_WritesMoreText()
+        {
+            var mockIoProvider = CreateMockIoProvider();
+            var menuItems = CreateMenuItemListWithMoreItemsThanWillFit();
+            var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
+
+            menu.Display();
+
+            mockIoProvider.Verify(io => io.WriteMore(It.IsAny<int>()));
+        }
+
+        [Test]
+        public void Display_GivenMoreThanTheMaxNumberOfItemsAndMoreChosen_WritesMoreTextOnTheSecondScreen()
+        {
+            var mockIoProvider = CreateMockIoProvider();
+            mockIoProvider.Setup(io => io.ReadCharacter()).ReturnsInOrder('0', '1');
+            var menuItems = CreateMenuItemListWithMoreItemsThanWillFit();
+            var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
+
+            menu.Display();
+
+            mockIoProvider.Verify(io => io.WriteMore(It.IsAny<int>()), Times.Exactly(2));
+        }
+
+        [Test]
+        public void Display_GivenDefaultValueAndEnterGivenAsInput_ReturnsTheIndexOfTheDefaultValue()
+        {
+            var mockIoProvider = CreateMockIoProvider();
+            mockIoProvider.Setup(io => io.ReadCharacter()).Returns('\r');
+            var menuItems = new[] { new MenuItem(), new MenuItem { IsDefault = true } };
+            var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
+
+            var choice = menu.Display();
+
+            Assert.AreEqual(1, choice);
+        }
+
+        private static IEnumerable<IMenuItem> CreateMenuItemListWithMoreItemsThanWillFit()
+        {
+            var menuItems = new List<IMenuItem>();
+            for (int i = 0; i <= Menu.MaxOnScreen; i++)
+            {
+                menuItems.Add(new MenuItem());
+            }
+            return menuItems;
         }
 
         private static Mock<IMenuIOProvider> CreateMockIoProvider()

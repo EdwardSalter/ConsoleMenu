@@ -7,6 +7,7 @@ namespace ConsoleMenu
 {
     public class Menu
     {
+        internal const int MaxOnScreen = 9;
         private readonly IMenuIOProvider m_io;
         public string InstructionalText { get; set; }
         public InstructionPosition InstructionPosition { get; set; }
@@ -49,9 +50,8 @@ namespace ConsoleMenu
         {
             var choices = MenuItems.Skip(startIndex).ToList();
 
-            const int maxOnScreen = 9;
-            var numberOfChoices = Math.Min(choices.Count, maxOnScreen);
-            var moreThanFits = choices.Count > maxOnScreen;
+            var numberOfChoices = Math.Min(choices.Count, MaxOnScreen);
+            var moreThanFits = choices.Count > MaxOnScreen;
 
             int? lastUsed = choices.FindIndex(mi => mi.IsDefault);
             if (lastUsed < 0)
@@ -74,7 +74,7 @@ namespace ConsoleMenu
                 var choice = choices[currentIndex - 1];
                 m_io.WriteNumberedChoice(currentIndex, choice.DisplayText);
             }
-            if (currentIndex > maxOnScreen)
+            if (currentIndex > MaxOnScreen)
             {
                 currentIndex = 0;
             }
@@ -106,7 +106,7 @@ namespace ConsoleMenu
                 else if ((moreThanFits || startIndex > 0) && key == currentIndex.ToString(CultureInfo.InvariantCulture)[0])
                 {
                     m_io.Clear();
-                    var newStart = moreThanFits ? maxOnScreen + startIndex : 0;
+                    var newStart = moreThanFits ? MaxOnScreen + startIndex : 0;
                     return DisplayFrom(newStart);
                 }
                 else if (key >= '1' && key <= numberOfChoices.ToString(CultureInfo.InvariantCulture)[0])
