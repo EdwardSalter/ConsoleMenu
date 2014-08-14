@@ -23,6 +23,7 @@ namespace ConsoleMenu.Tests
             Assert.DoesNotThrow(menuItem.Select);
         }
 
+        [Test]
         public void Dispose_GivenEventFiredAfter_DoesNotPropagateEvent()
         {
             bool eventFired = false;
