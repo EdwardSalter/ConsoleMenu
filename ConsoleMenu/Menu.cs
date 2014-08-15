@@ -8,15 +8,16 @@ namespace ConsoleMenu
     {
         internal const int MaxOnScreen = 9;
         private readonly IMenuIOProvider m_io;
+        private readonly IList<IMenuItem> m_menuItems;
         public string InstructionalText { get; set; }
         public InstructionPosition InstructionPosition { get; set; }
-        public IEnumerable<IMenuItem> MenuItems { get; private set; }
-        public bool CanBeCancelled { get; set; }
 
-        private IEnumerable<IMenuItem> RealChoices
+        public IEnumerable<IMenuItem> MenuItems
         {
-            get { return MenuItems.Where(menu => !menu.IsMore); }
+            get { return m_menuItems; }
         }
+
+        public bool CanBeCancelled { get; set; }
 
         public Menu()
             : this(string.Empty)
@@ -36,7 +37,7 @@ namespace ConsoleMenu
 
             InstructionalText = instructionalText;
             InstructionPosition = InstructionPosition.Below;
-            MenuItems = menuItems;
+            m_menuItems = menuItems.ToList();
             m_io = ioProvider;
         }
 
@@ -47,20 +48,14 @@ namespace ConsoleMenu
                 throw new InvalidOperationException("Cannot display menu as there are no menu items to display");
             }
 
-            return DisplayFrom(0);
-        }
 
-        private IMenuItem DisplayFrom(int startIndex)
-        {
-            var choices = MenuItems.Skip(startIndex).ToList();
-            var displayed = choices.Take(MaxOnScreen + 1).ToList();
+            var displayed = MenuItems.ToList();
 
-            bool allDisplayed = !choices.Skip(MaxOnScreen).Any();
 
             // TODO: THROW IF 2 DISPLAYED MENU ITEMS HAVE SAME SHORTCUT
 
 
-            int? lastUsed = choices.FindIndex(mi => mi.IsDefault);
+            int? lastUsed = displayed.FindIndex(mi => mi.IsDefault);
             if (lastUsed < 0)
             {
                 lastUsed = null;
@@ -99,13 +94,6 @@ namespace ConsoleMenu
                 }
                 else if (chosenMenu != null)
                 {
-                    if (chosenMenu.IsMore)
-                    {
-                        m_io.Clear();
-                        var newStart = !allDisplayed ? MaxOnScreen + startIndex + 1: 0;
-                        return DisplayFrom(newStart);
-                    }
-
                     validKey = true;
                 }
             }
@@ -113,6 +101,11 @@ namespace ConsoleMenu
             m_io.Clear();
 
             return chosenMenu;
+        }
+
+        public void AddMenuItem(IMenuItem menuItem)
+        {
+            m_menuItems.Add(menuItem);
         }
     }
 }

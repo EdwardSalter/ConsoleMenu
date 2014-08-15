@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleMenu
 {
-    class LinkedMenu
+    public class LinkedMenu
     {
-        private readonly IEnumerable<IMenu> m_menus;
+        private readonly IList<IMenu> m_menus;
 
         public LinkedMenu(IEnumerable<IMenu> menus)
         {
-            m_menus = menus;
+            if (menus == null) throw new ArgumentNullException("menus");
+            m_menus = menus.ToList();
+            if (!m_menus.Any()) throw new ArgumentOutOfRangeException("menus");
+
         }
 
         public IMenuItem Display()

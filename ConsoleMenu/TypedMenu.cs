@@ -7,7 +7,7 @@ namespace ConsoleMenu
     public class TypedMenu<T>
     {
         private readonly IList<T> m_items;
-        private readonly Menu m_menu;
+        private readonly LinkedMenu m_menu;
         private readonly IEnumerable<IMenuItem> m_nonNumberedItems;
 
         public TypedMenu(IList<T> choices, Func<T, string> nameFunc, T lastUsed, string instructionalText)
@@ -20,8 +20,8 @@ namespace ConsoleMenu
             m_items = choices;
 
             m_nonNumberedItems = MenuItemFactory.CreateMenuItemsFromObjects(choices, nameFunc, lastUsed);
-            var menuItems = m_nonNumberedItems.ToNumberedMenuItems();
-            m_menu = new Menu(instructionalText, menuItems, io);
+
+            m_menu = new LinkedMenu(m_nonNumberedItems.ToMenuList(instructionalText));
         }
 
         public T Display()
