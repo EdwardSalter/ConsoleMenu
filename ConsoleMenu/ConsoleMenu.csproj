@@ -39,12 +39,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleMenuIOProvider.cs" />
+    <Compile Include="IMenu.cs" />
     <Compile Include="IMenuIOProvider.cs" />
     <Compile Include="IMenuItem.cs" />
     <Compile Include="InstructionPosition.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MenuItemFactory.cs" />
     <Compile Include="MenuItem.cs" />
+    <Compile Include="LinkedMenu.cs" />
     <Compile Include="TypedMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

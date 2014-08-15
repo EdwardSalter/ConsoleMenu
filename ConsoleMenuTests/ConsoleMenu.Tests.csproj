@@ -59,6 +59,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="LinkedMenuTests.cs" />
     <Compile Include="MenuItemFactoryTests.cs" />
     <Compile Include="MenuTests.cs" />
     <Compile Include="MoqExtensions.cs" />
