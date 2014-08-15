@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Moq;
 using Moq.Sequences;
 using NUnit.Framework;
@@ -78,41 +79,29 @@ namespace ConsoleMenu.Tests
         }
 
         [Test]
-        public void Display_GivenMoreThanTheMaxNumberOfItems_WritesMoreText()
-        {
-            var mockIoProvider = CreateMockIoProvider();
-            var menuItems = CreateMenuItemListWithMoreItemsThanWillFit();
-            var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
-
-            menu.Display();
-
-            mockIoProvider.Verify(io => io.WriteMore(It.IsAny<int>()));
-        }
-
-        [Test]
-        public void Display_GivenMoreThanTheMaxNumberOfItemsAndMoreChosen_WritesMoreTextOnTheSecondScreen()
-        {
-            var mockIoProvider = CreateMockIoProvider();
-            mockIoProvider.Setup(io => io.ReadCharacter()).ReturnsInOrder('0', '1');
-            var menuItems = CreateMenuItemListWithMoreItemsThanWillFit();
-            var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
-
-            menu.Display();
-
-            mockIoProvider.Verify(io => io.WriteMore(It.IsAny<int>()), Times.Exactly(2));
-        }
-
-        [Test]
-        public void Display_GivenDefaultValueAndEnterGivenAsInput_ReturnsTheIndexOfTheDefaultValue()
+        public void Display_GivenDefaultValueAndEnterGivenAsInput_ReturnsTheMenuItemOfTheDefaultValue()
         {
             var mockIoProvider = CreateMockIoProvider();
             mockIoProvider.Setup(io => io.ReadCharacter()).Returns('\r');
-            var menuItems = new[] { new MenuItem('1'), new MenuItem('2') { IsDefault = true } };
+            var defaultMenuItem = new MenuItem('2') { IsDefault = true };
+            var menuItems = new[] { new MenuItem('1'), defaultMenuItem };
             var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
 
             var choice = menu.Display();
 
-            Assert.AreEqual(1, choice);
+            Assert.AreSame(defaultMenuItem, choice);
+        }
+
+        [Test]
+        public void Display_GivenMenuItemListWithMoreItemsThanWillFit_DoesNotDisplayItemsAfterLimit()
+        {
+            var mockIoProvider = CreateMockIoProvider();
+            var menuItems = CreateMenuItemListWithMoreItemsThanWillFit();
+            var menu = new Menu("SomeText", menuItems, mockIoProvider.Object);
+
+            menu.Display();
+
+            mockIoProvider.Verify(io => io.WriteMenuItem(It.Is<char>(value => value > '9'), It.IsAny<string>()), Times.Never);
         }
 
         private static IEnumerable<IMenuItem> CreateMenuItemListWithMoreItemsThanWillFit()
@@ -120,7 +109,7 @@ namespace ConsoleMenu.Tests
             var menuItems = new List<IMenuItem>();
             for (int i = 0; i <= Menu.MaxOnScreen; i++)
             {
-                menuItems.Add(new MenuItem(i.ToString()[0]));
+                menuItems.Add(new MenuItem(i.ToString(CultureInfo.InvariantCulture)[0]));
             }
             return menuItems;
         }
