@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ConsoleMenu")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Edward Salter")]
 [assembly: AssemblyProduct("ConsoleMenu")]
 [assembly: AssemblyCopyright("Copyright © Edward Salter 2014")]
 [assembly: AssemblyTrademark("")]
