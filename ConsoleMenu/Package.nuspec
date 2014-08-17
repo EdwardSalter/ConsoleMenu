@@ -7,7 +7,7 @@
     <authors>Edward Salter</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Provide a way for console applications to display a numbered menu.</description>
-    <releaseNotes>1.0.0 - Initial Release, provide option to create a menu for numbered items.</releaseNotes>
+    <releaseNotes>0.1.0 - Initial Release, provide option to create a menu for numbered items.</releaseNotes>
     <copyright>Copyright © Edward Salter 2014</copyright>
     <licenseUrl>https://github.com/EdwardSalter/ConsoleMenu/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/EdwardSalter/ConsoleMenu</projectUrl>
