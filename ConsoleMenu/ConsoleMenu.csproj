@@ -40,10 +40,12 @@
   <ItemGroup>
     <Compile Include="ConsoleMenuIOProvider.cs" />
     <Compile Include="IMenu.cs" />
+    <Compile Include="ITextMenu.cs" />
     <Compile Include="IMenuIOProvider.cs" />
     <Compile Include="IMenuItem.cs" />
     <Compile Include="InstructionPosition.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="MenuFactory.cs" />
     <Compile Include="MenuItemFactory.cs" />
     <Compile Include="MenuItem.cs" />
     <Compile Include="LinkedMenu.cs" />

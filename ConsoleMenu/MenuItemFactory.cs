@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace ConsoleMenu
 {
@@ -55,22 +54,6 @@ namespace ConsoleMenu
                 newMenus.Add(new MenuItem((++i).ToChar(), " -- MORE --") { IsMore = true });
             }
             return newMenus;
-        }
-
-        public static IEnumerable<IMenu> ToMenuList(this IEnumerable<IMenuItem> menuItems, string instructionalText, int maxAllowed = Menu.MaxOnScreen)
-        {
-            var source = menuItems.ToNumberedMenuItems(maxAllowed).ToList();
-            var currentMenu = new Menu(instructionalText);
-            foreach (var menuItem in source)
-            {
-                currentMenu.AddMenuItem(menuItem);
-
-                if (menuItem.IsMore)
-                {
-                    yield return currentMenu;
-                    currentMenu = new Menu(instructionalText);
-                }
-            }
         }
 
         private static char ToChar(this int value)

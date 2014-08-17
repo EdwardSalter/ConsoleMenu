@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ConsoleMenu
 {
-    public class LinkedMenu
+    public class LinkedMenu : IMenu
     {
         private readonly IList<IMenu> m_menus;
 
@@ -12,7 +12,7 @@ namespace ConsoleMenu
         {
             if (menus == null) throw new ArgumentNullException("menus");
             m_menus = menus.ToList();
-            if (!m_menus.Any()) throw new ArgumentOutOfRangeException("menus");
+            if (!m_menus.Any()) throw new ArgumentOutOfRangeException("menus", "There must be at least one menu");
 
         }
 

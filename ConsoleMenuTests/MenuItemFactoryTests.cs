@@ -5,7 +5,8 @@ using NUnit.Framework;
 
 namespace ConsoleMenu.Tests
 {
-    class MenuItemFactoryTests
+    [TestFixture]
+    public class MenuItemFactoryTests
     {
         [Test]
         public void CreateMenuItemsFromObjects_NotGivenADefaultValue_NoMenuItemIsMarkedAsDefault()
@@ -87,56 +88,6 @@ namespace ConsoleMenu.Tests
             var numberedMenuItems = menuItems.ToNumberedMenuItems(1).ToList();
 
             Assert.IsTrue(numberedMenuItems[3].IsMore);
-        }
-
-        [Test]
-        public void ToMenuList_GivenAListOfMenuItemsThatExceedsMaxAllowed_ReturnsMultipleMenus()
-        {
-            var menuItems = new[] { new MenuItem(), new MenuItem() };
-
-            var menus = menuItems.ToMenuList("SomeText", 1).ToList();
-
-            Assert.AreEqual(2, menus.Count);
-        }
-
-        [Test]
-        public void ToMenuList_GivenAListOfMenuItemsThatExceedsMaxAllowed_FirstMenuIsFull()
-        {
-            var menuItems = new[] { new MenuItem(), new MenuItem(), new MenuItem() };
-
-            var menus = menuItems.ToMenuList("SomeText", 2).ToList();
-
-            Assert.AreEqual(3, menus[0].MenuItems.Count());
-        }
-
-        [Test]
-        public void ToMenuList_GivenAListOfMenuItemsThatExceedsMaxAllowed_SecondMenuIsNotFull()
-        {
-            var menuItems = new[] { new MenuItem(), new MenuItem(), new MenuItem() };
-
-            var menus = menuItems.ToMenuList("SomeText", 2).ToList();
-
-            Assert.AreEqual(2, menus[1].MenuItems.Count());
-        }
-
-        [Test]
-        public void ToMenuList_GivenAListOfMenuItemsThatExceedsMaxAllowed_FirstMenuContainsMoreItem()
-        {
-            var menuItems = new[] { new MenuItem(), new MenuItem()};
-
-            var menus = menuItems.ToMenuList("SomeText", 1).ToList();
-
-            Assert.IsTrue(menus[0].MenuItems.Any(menu => menu.IsMore));
-        }
-
-        [Test]
-        public void ToMenuList_GivenAListOfMenuItemsThatExceedsMaxAllowed_SecondMenuContainsMoreItem()
-        {
-            var menuItems = new[] { new MenuItem(), new MenuItem() };
-
-            var menus = menuItems.ToMenuList("SomeText", 1).ToList();
-
-            Assert.IsTrue(menus[1].MenuItems.Any(menu => menu.IsMore));
         }
     }
 }

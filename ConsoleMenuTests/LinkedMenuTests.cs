@@ -10,7 +10,7 @@ namespace ConsoleMenu.Tests
         public void Display_GivenASingleMenuThatReturnsANonMoreMenuItem_ReturnsThatMenuItem()
         {
             var mockMenuItem = new Mock<IMenuItem>();
-            var fakeMenu = new Mock<IMenu>();
+            var fakeMenu = new Mock<ITextMenu>();
             fakeMenu.Setup(m => m.Display()).Returns(mockMenuItem.Object);
             var menu = new LinkedMenu(new[] { fakeMenu.Object });
 
@@ -43,9 +43,9 @@ namespace ConsoleMenu.Tests
             mockMenu1.Verify(m => m.Display(), Times.Exactly(2));
         }
 
-        private static Mock<IMenu> CreateMenuThatReturnsMenuItem(params bool[] isMore)
+        private static Mock<ITextMenu> CreateMenuThatReturnsMenuItem(params bool[] isMore)
         {
-            var menu = new Mock<IMenu>();
+            var menu = new Mock<ITextMenu>();
             menu.Setup(m => m.Display()).Returns(CreateMenuItem(isMore));
             return menu;
         }

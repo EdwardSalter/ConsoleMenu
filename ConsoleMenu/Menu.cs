@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ConsoleMenu
 {
-    public class Menu : IMenu
+    public class Menu : ITextMenu
     {
         internal const int MaxOnScreen = 9;
         private readonly IMenuIOProvider m_io;
