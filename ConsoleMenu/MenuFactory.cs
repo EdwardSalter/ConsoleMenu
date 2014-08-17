@@ -15,7 +15,7 @@ namespace ConsoleMenu
             return menus[0];
         }
 
-        public static IEnumerable<IMenu> ToMenuList(this IEnumerable<IMenuItem> menuItems, string instructionalText, int maxAllowed = Menu.MaxOnScreen)
+        internal static IEnumerable<IMenu> ToMenuList(this IEnumerable<IMenuItem> menuItems, string instructionalText, int maxAllowed = Menu.MaxOnScreen)
         {
             var source = menuItems.ToNumberedMenuItems(maxAllowed).ToList();
             var currentMenu = new Menu(instructionalText);

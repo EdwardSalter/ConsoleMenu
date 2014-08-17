@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace ConsoleMenu
 {
-    public static class MenuItemFactory
+    internal static class MenuItemFactory
     {
         public static IEnumerable<IMenuItem> CreateMenuItemsFromObjects<T>(
             IEnumerable<T> items,

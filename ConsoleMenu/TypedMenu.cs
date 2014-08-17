@@ -10,6 +10,7 @@ namespace ConsoleMenu
         private readonly IMenu m_menu;
         private readonly IEnumerable<IMenuItem> m_nonNumberedItems;
 
+        // TODO: FACTORY METHOD
         public TypedMenu(IList<T> choices, Func<T, string> nameFunc, T lastUsed, string instructionalText)
         {
             m_items = choices;
