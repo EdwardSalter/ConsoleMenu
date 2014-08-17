@@ -33,15 +33,15 @@ namespace SimpleTestApp
                 new SimpleClass{Name = "Twelve"},
             });
 
-            var menu = new TypedMenu<SimpleClass>(choices, x => x.Name, null, "Pick one");
+            var menu = new TypedMenu<SimpleClass>(choices, "Pick one", x => x.Name, null);
             ChooseMenu(menu);
 
             const int defaultVal = 2;
-            var menuWithDefault = new TypedMenu<SimpleClass>(choices, x => x.Name, choices[defaultVal -1], 
-                "This should have default value of " + defaultVal);
+            var menuWithDefault = new TypedMenu<SimpleClass>(choices, 
+                "This should have default value of " + defaultVal, x => x.Name, choices[defaultVal -1]);
             ChooseMenu(menuWithDefault);
 
-            var tooManyChoicesMenu = new TypedMenu<SimpleClass>(tooManyChoices, x => x.Name, null, "This should go on to the next screen");
+            var tooManyChoicesMenu = new TypedMenu<SimpleClass>(tooManyChoices, "This should go on to the next screen", x => x.Name, null);
             ChooseMenu(tooManyChoicesMenu);
         }
 

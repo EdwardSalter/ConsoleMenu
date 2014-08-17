@@ -11,7 +11,7 @@ namespace ConsoleMenu
         private readonly IEnumerable<IMenuItem> m_nonNumberedItems;
 
         // TODO: FACTORY METHOD
-        public TypedMenu(IList<T> choices, Func<T, string> nameFunc, T lastUsed, string instructionalText)
+        public TypedMenu(IList<T> choices, string instructionalText, Func<T, string> nameFunc, T lastUsed = default(T))
         {
             m_items = choices;
 
