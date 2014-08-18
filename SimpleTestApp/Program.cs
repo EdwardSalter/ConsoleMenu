@@ -13,6 +13,8 @@ namespace SimpleTestApp
 
         static void Main()
         {
+            Console.Title = "ConsoleMenu Test App";
+
             var choices = new List<SimpleClass>
             {
                 new SimpleClass{Name = "One"},
@@ -33,15 +35,15 @@ namespace SimpleTestApp
                 new SimpleClass{Name = "Twelve"},
             });
 
-            var menu = new TypedMenu<SimpleClass>(choices, "Pick one", x => x.Name, null);
+            var menu = new TypedMenu<SimpleClass>(choices, "Choose a number", x => x.Name, null);
             ChooseMenu(menu);
 
             const int defaultVal = 2;
             var menuWithDefault = new TypedMenu<SimpleClass>(choices, 
-                "This should have default value of " + defaultVal, x => x.Name, choices[defaultVal -1]);
+                "Choose a number (with default)", x => x.Name, choices[defaultVal -1]);
             ChooseMenu(menuWithDefault);
 
-            var tooManyChoicesMenu = new TypedMenu<SimpleClass>(tooManyChoices, "This should go on to the next screen", x => x.Name, null);
+            var tooManyChoicesMenu = new TypedMenu<SimpleClass>(tooManyChoices, "Choose a number (there are more on the next screen)", x => x.Name);
             ChooseMenu(tooManyChoicesMenu);
         }
 
