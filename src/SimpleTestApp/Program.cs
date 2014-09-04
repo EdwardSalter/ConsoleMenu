@@ -35,7 +35,7 @@ namespace SimpleTestApp
                 new SimpleClass{Name = "Twelve"},
             });
 
-            var menu = new TypedMenu<SimpleClass>(choices, "Choose a number", x => x.Name, null);
+            var menu = new TypedMenu<SimpleClass>(choices, "Choose a number", x => x.Name);
             ChooseMenu(menu);
 
             const int defaultVal = 2;
