@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using System;
+using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
 
 namespace ConsoleMenu.Tests
@@ -6,6 +8,18 @@ namespace ConsoleMenu.Tests
     [TestFixture]
     public class LinkedMenuTests
     {
+        [Test]
+        public void Constructor_GivenANullListOfMenus_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => new LinkedMenu(null));
+        }
+
+        [Test]
+        public void Constructor_GivenAnEmptyListOfMenus_Throws()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new LinkedMenu(new List<IMenu>()));
+        }
+
         [Test]
         public void Display_GivenASingleMenuThatReturnsANonMoreMenuItem_ReturnsThatMenuItem()
         {

@@ -10,10 +10,17 @@ namespace ConsoleMenu
 
         public LinkedMenu(IEnumerable<IMenu> menus)
         {
-            if (menus == null) throw new ArgumentNullException("menus");
-            m_menus = menus.ToList();
-            if (!m_menus.Any()) throw new ArgumentOutOfRangeException("menus", "There must be at least one menu");
+            if (menus == null)
+            {
+                throw new ArgumentNullException("menus");
+            }
 
+            m_menus = menus.ToList();
+
+            if (!m_menus.Any())
+            {
+                throw new ArgumentOutOfRangeException("menus", "There must be at least one menu");
+            }
         }
 
         public IMenuItem Display()

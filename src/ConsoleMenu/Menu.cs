@@ -19,9 +19,6 @@ namespace ConsoleMenu
 
         public bool CanBeCancelled { get; set; }
 
-        public Menu()
-            : this(string.Empty)
-        { }
 
         public Menu(string instructionalText)
             : this(instructionalText, new List<MenuItem>())

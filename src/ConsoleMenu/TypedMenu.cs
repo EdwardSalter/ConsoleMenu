@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace ConsoleMenu
 {
+    // TODO: REWRITE IN A WAY THAT THIS CAN BE TESTED
     public class TypedMenu<T>
     {
         private readonly IList<T> m_items;
