@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Edward Salter")]
 [assembly: AssemblyProduct("ConsoleMenu")]
-[assembly: AssemblyCopyright("Copyright © Edward Salter 2014")]
+[assembly: AssemblyCopyright("Copyright © Edward Salter 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
