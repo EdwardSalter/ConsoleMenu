@@ -1,4 +1,4 @@
-# ConsoleMenu [![Nuget Version](http://img.shields.io/nuget/v/ConsoleMenu.svg)](https://www.nuget.org/packages/ConsoleMenu) [![Nuget Downloads](http://img.shields.io/nuget/dt/ConsoleMenu.svg)](https://www.nuget.org/packages/ConsoleMenu)
+# ConsoleMenu [![NuGet Badge](https://buildstats.info/nuget/ConsoleMenu)](https://www.nuget.org/packages/ConsoleMenu/)
 
 Provide an easy means of providing simple console applications with menu options.
 
