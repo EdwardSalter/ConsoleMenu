@@ -101,7 +101,7 @@ namespace ConsoleMenu.Tests
 
             menu.Display();
 
-            mockIoProvider.Verify(io => io.WriteMenuItem(It.Is<char>(value => value > '9'), It.IsAny<string>()), Times.Never);
+            mockIoProvider.Verify(io => io.WriteMenuItem(It.Is<char>(value => value > '9'), It.IsAny<string>()), Times.Never());
         }
 
         private static IEnumerable<IMenuItem> CreateMenuItemListWithMoreItemsThanWillFit()
